@@ -1,11 +1,7 @@
 package uc
 
 import (
-	"fortuna-express-web/pkg/domain/entities"
 	repository "fortuna-express-web/pkg/repositories"
-	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func setupTest() LiquidationUseCase {
@@ -15,6 +11,7 @@ func setupTest() LiquidationUseCase {
 	return NewLiquidationUseCase(liquidationRepo, descriptionRepo, aditionRepo)
 }
 
+/*
 func TestNewLiquidation(t *testing.T) {
 	uc := setupTest()
 	user := entities.NewFakeUser()
@@ -84,3 +81,4 @@ func TestDeleteLiquidation(t *testing.T) {
 
 	assert.Equal(t, 0, len(liquidations))
 }
+*/

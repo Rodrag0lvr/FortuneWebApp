@@ -1,7 +1,8 @@
 {{ define "content" }}
 <h1 class="text-2xl font-bold mb-6">Detalle de Liquidación</h1>
 
-<table class="w-full border-collapse border border-gray-300">
+<!-- Tabla Principal -->
+<table class="w-full border-collapse border border-gray-300 mb-6">
   <thead>
     <tr class="bg-gray-200">
       <th class="px-4 py-2 text-left border border-gray-300">Categoría</th>
@@ -111,4 +112,28 @@
     </tr>
   </tbody>
 </table>
+
+<!-- Gastos Adicionales -->
+<h2 class="text-lg font-semibold mb-4">Gastos Adicionales</h2>
+{{ if .adition }}
+<table class="w-full border-collapse border border-gray-300">
+  <thead>
+    <tr class="bg-gray-200">
+      <th class="px-4 py-2 text-left border border-gray-300">Descripción</th>
+      <th class="px-4 py-2 text-left border border-gray-300">Monto</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range .adition }}
+    <tr>
+      <td class="px-4 py-2 border border-gray-300">{{ .Description }}</td>
+      <td class="px-4 py-2 border border-gray-300">{{ .Price }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+{{ else }}
+<p class="text-gray-500">No hay gastos adicionales para esta liquidación.</p>
+{{ end }}
+
 {{ end }}

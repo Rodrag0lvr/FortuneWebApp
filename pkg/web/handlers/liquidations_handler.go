@@ -62,7 +62,7 @@ func (l liquidationsHandler) Get(user *entities.User, w http.ResponseWriter, r *
 	}
 
 	// Obtener la liquidación
-	liquidation, err := l.uc.Get(user, id)
+	liquidation, adition, err := l.uc.Get(user, id)
 	if err != nil {
 		return nil, err
 	}
@@ -71,8 +71,8 @@ func (l liquidationsHandler) Get(user *entities.User, w http.ResponseWriter, r *
 	data := map[string]interface{}{
 		"user":        user,
 		"liquidation": liquidation,
+		"adition":     adition,
 	}
-	log.Printf("--------------------------Liquidation: %+v\n", data)
 
 	return data, nil
 }
@@ -104,7 +104,14 @@ func (l liquidationsHandler) NewView(user *entities.User, w http.ResponseWriter,
 	}
 }
 func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *http.Request) {
-	// Obtén los valores del formulario
+	// Procesa el formulario
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "Invalid form data", http.StatusBadRequest)
+		return
+	}
+
+	// Procesar otros valores del formulario
 	departure := r.FormValue("departure")
 	arrival := r.FormValue("arrival")
 	laundry := r.FormValue("laundry")
@@ -129,13 +136,13 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 	truck := r.FormValue("truck")
 	toll := r.FormValue("peaje")
 
+	// Conversión de valores numéricos
 	tollFloat, err := strconv.ParseFloat(toll, 64)
 	if err != nil {
 		http.Error(w, "Invalid toll value", http.StatusBadRequest)
 		return
 	}
 
-	log.Printf("---------------------%s", expenseTotal)
 	expenseTotalFloat, err := strconv.ParseFloat(expenseTotal, 64)
 	if err != nil {
 		http.Error(w, "Invalid expense total value", http.StatusBadRequest)
@@ -148,107 +155,46 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		return
 	}
 
-	// Parsear la fecha al formato deseado
-	layout := "2006-01-02" // Cambia según el formato esperado del input
+	layout := "2006-01-02"
 	parsedDate, err := time.Parse(layout, dateStr)
 	if err != nil {
 		http.Error(w, "invalid date format", http.StatusBadRequest)
 		return
 	}
-	freightFloat, err := strconv.ParseFloat(freight, 64)
-	if err != nil {
-		http.Error(w, "Invalid freight value", http.StatusBadRequest)
-		return
+
+	freightFloat, _ := strconv.ParseFloat(freight, 64)
+	laundryFloat, _ := strconv.ParseFloat(laundry, 64)
+	garageFloat, _ := strconv.ParseFloat(garage, 64)
+	guardianshipFloat, _ := strconv.ParseFloat(guardianship, 64)
+	coverFloat, _ := strconv.ParseFloat(cover, 64)
+	sweeperFloat, _ := strconv.ParseFloat(sweeper, 64)
+	fuelFloat, _ := strconv.ParseFloat(fuel, 64)
+	freightLiquidFloat, _ := strconv.ParseFloat(freightLiquid, 64)
+	detractionFloat, _ := strconv.ParseFloat(detraction, 64)
+	driverPayFloat, _ := strconv.ParseFloat(driverPay, 64)
+	liquidTripFloat, _ := strconv.ParseFloat(liquidTrip, 64)
+	gastosDescripcion := r.Form["gasto-descripcion[]"]
+	gastosMonto := r.Form["gasto-monto[]"]
+
+	bandera := false
+	if len(gastosDescripcion) != 0 {
+		bandera = true
 	}
 
-	laundryFloat, err := strconv.ParseFloat(laundry, 64)
-	if err != nil {
-		http.Error(w, "Invalid laundry value", http.StatusBadRequest)
-		return
-	}
-
-	garageFloat, err := strconv.ParseFloat(garage, 64)
-	if err != nil {
-		http.Error(w, "Invalid garage value", http.StatusBadRequest)
-		return
-	}
-
-	guardianshipFloat, err := strconv.ParseFloat(guardianship, 64)
-	if err != nil {
-		http.Error(w, "Invalid guardianship value", http.StatusBadRequest)
-		return
-	}
-
-	coverFloat, err := strconv.ParseFloat(cover, 64)
-	if err != nil {
-		http.Error(w, "Invalid cover value", http.StatusBadRequest)
-		return
-	}
-
-	sweeperFloat, err := strconv.ParseFloat(sweeper, 64)
-	if err != nil {
-		http.Error(w, "Invalid sweeper value", http.StatusBadRequest)
-		return
-	}
-
-	fuelFloat, err := strconv.ParseFloat(fuel, 64)
-	if err != nil {
-		http.Error(w, "Invalid fuel value", http.StatusBadRequest)
-		return
-	}
-
-	freightLiquidFloat, err := strconv.ParseFloat(freightLiquid, 64)
-	if err != nil {
-		http.Error(w, "Invalid freight liquid value", http.StatusBadRequest)
-		return
-	}
-	detractionFloat, err := strconv.ParseFloat(detraction, 64)
-	if err != nil {
-		http.Error(w, "Invalid detraction value", http.StatusBadRequest)
-		return
-	}
-	driverPayFloat, err := strconv.ParseFloat(driverPay, 64)
-	if err != nil {
-		http.Error(w, "Invalid driver pay value", http.StatusBadRequest)
-		return
-	}
-	liquidTripFloat, err := strconv.ParseFloat(liquidTrip, 64)
-	if err != nil {
-		http.Error(w, "Invalid liquid trip value", http.StatusBadRequest)
-		return
-	}
-
-	calculoTotal := 0.0
-
-	if laundryFloat > 1 {
-		calculoTotal += laundryFloat
-	}
-	if sweeperFloat > 1 {
-		calculoTotal += sweeperFloat
-	}
-	if coverFloat > 1 {
-		calculoTotal += coverFloat
-	}
-
-	if fuelFloat > 1 {
-		calculoTotal += fuelFloat
-	}
-	calculoTotal += garageFloat + guardianshipFloat + driverPayFloat
-
-	// Crea la instancia de Liquidation
+	// Crear instancia de Liquidation
 	liquidation := entities.Liquidation{
 		Departure:        departure,
 		Arrival:          arrival,
-		Laundry:          laundryFloat, //
+		Laundry:          laundryFloat,
 		Garage:           garageFloat,
 		Guardianship:     guardianshipFloat,
-		Cover:            coverFloat,   //
-		Sweeper:          sweeperFloat, //
+		Cover:            coverFloat,
+		Sweeper:          sweeperFloat,
 		Driver:           driver,
-		Fuel:             fuelFloat,          //
-		Freight:          freightFloat,       //?
-		FreightLiquid:    freightLiquidFloat, //?
-		Detraction:       detractionFloat,    //?
+		Fuel:             fuelFloat,
+		Freight:          freightFloat,
+		FreightLiquid:    freightLiquidFloat,
+		Detraction:       detractionFloat,
 		Gremission:       gremission,
 		Gtransport:       gtransport,
 		Gtransport2:      gtransport2,
@@ -261,16 +207,47 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		Truck:            truck,
 		ExpenseTotal:     expenseTotalFloat,
 		Toll:             tollFloat,
+		GastAdition:      bandera,
 	}
 
-	err = l.uc.New(user, &liquidation)
-
+	// Guardar la liquidación
+	id, err := l.uc.New(user, &liquidation)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-
 		return
 	}
 
+	// Obtener los valores de la lista dinámica de gastos adicionales
+
+	// Validar que ambas listas tengan la misma longitud
+	if len(gastosDescripcion) != len(gastosMonto) {
+		http.Error(w, "Mismatch between gasto-descripcion and gasto-monto", http.StatusBadRequest)
+		return
+	}
+
+	// Procesar los gastos adicionales
+	for i := range gastosDescripcion {
+		monto, err := strconv.ParseFloat(gastosMonto[i], 64)
+		if err != nil {
+			http.Error(w, "Invalid monto value for additional expense", http.StatusBadRequest)
+			return
+		}
+
+		adition := entities.Adition{
+			Description:   gastosDescripcion[i],
+			Price:         monto,
+			LiquidationId: id,
+		}
+		err = l.uc.NewAdition(user, &adition)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		log.Printf("--------------------Adition created with ID:%d", id)
+	}
+
+	log.Printf("+++++++++++++++Liquidation created with ID:%d", liquidation.GastAdition)
+	// Redirigir al home después de guardar
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 

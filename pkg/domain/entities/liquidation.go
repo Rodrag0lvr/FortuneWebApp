@@ -28,9 +28,10 @@ type Liquidation struct {
 	Truck            string    `json:"truck"`
 	ExpenseTotal     float64   `json:"expense_total"`
 	Toll             float64   `json:"toll"`
+	GastAdition      bool      `json:"gast_adition"`
 }
 
-func NewLiquidation(id int, laundry, garage, guardianship, cover, sweeper, fuel, freight, FreightLiquid, detraction, driverPay, LiquidTrip, expenseTotal, toll float64, driver, departure, arrival, gremission, gtransport, gtransport2, invoice, DriveDescription, fuelDescription, truck string, date time.Time) *Liquidation {
+func NewLiquidation(id int, laundry, garage, guardianship, cover, sweeper, fuel, freight, FreightLiquid, detraction, driverPay, LiquidTrip, expenseTotal, toll float64, driver, departure, arrival, gremission, gtransport, gtransport2, invoice, DriveDescription, fuelDescription, truck string, date time.Time, gastAdition bool) *Liquidation {
 	return &Liquidation{
 		ID:               id,
 		Departure:        departure,
@@ -57,6 +58,7 @@ func NewLiquidation(id int, laundry, garage, guardianship, cover, sweeper, fuel,
 		Truck:            truck,
 		ExpenseTotal:     expenseTotal,
 		Toll:             toll,
+		GastAdition:      gastAdition,
 	}
 }
 
@@ -87,5 +89,6 @@ func NewFakeLiquidation() *Liquidation {
 		Truck:            "1",
 		ExpenseTotal:     1,
 		Toll:             1,
+		GastAdition:      true,
 	}
 }

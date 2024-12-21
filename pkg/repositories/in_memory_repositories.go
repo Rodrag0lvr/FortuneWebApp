@@ -71,10 +71,10 @@ func NewInMemoryLiquidationRepository() interfaces.LiquidationRepository {
 	}
 }
 
-func (l *InMemoryLiquidationRepository) New(liquidation *entities.Liquidation) error {
+func (l *InMemoryLiquidationRepository) New(liquidation *entities.Liquidation) (int, error) {
 	liquidation.ID = len(l.liquidations) + 1
 	l.liquidations = append(l.liquidations, liquidation)
-	return nil
+	return liquidation.ID, nil
 }
 
 func (l *InMemoryLiquidationRepository) List() ([]*entities.Liquidation, error) {
@@ -144,13 +144,19 @@ func (a *InMemoryAditionRepository) List() ([]*entities.Adition, error) {
 	return a.aditions, nil
 }
 
-func (a *InMemoryAditionRepository) Get(id int) (*entities.Adition, error) {
+func (a *InMemoryAditionRepository) Get(id int) ([]*entities.Adition, error) {
+	var result []*entities.Adition
 	for _, adition := range a.aditions {
-		if adition.ID == id {
-			return adition, nil
+		if adition.LiquidationId == id {
+			result = append(result, adition)
 		}
 	}
-	return nil, errors.New("adition not found")
+
+	if len(result) == 0 {
+		return nil, errors.New("adition not found")
+	}
+
+	return result, nil
 }
 
 func (a *InMemoryAditionRepository) Update(adition *entities.Adition) error {
