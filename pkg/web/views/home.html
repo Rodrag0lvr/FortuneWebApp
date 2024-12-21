@@ -1,5 +1,4 @@
 {{ define "content" }}
-<hr class="border-gray-300 mt-1">
 <main class="w-full p-6">
     <div class="flex flex-wrap justify-between items-center px-6 py-4">
         <!-- Título -->
@@ -17,7 +16,7 @@
             </div>
 
             <button class="btn-secondary w-full sm:w-40">Buscar</button>
-            <button class="btn-primary w-full sm:w-auto">+ Agregar liquidación</button>
+            <a href="/new" class="btn-primary w-full sm:w-auto">+ Agregar liquidación</a>
         </div>
     </div>
     <div class="overflow-x-auto mt-10 p-6">
@@ -35,13 +34,13 @@
             <tbody>
                 {{ if .liquidations }}
                 {{ range .liquidations }}
-                    <tr>
+                    <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location.href='/liquidations/{{ .ID }}'">
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b date-cell">{{ .Date }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Departure }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Arrival }}</td>
                         <td class="px-4 py-4 text-md border-b">
-                            {{ if eq .Departure "lima" }}
+                            {{ if eq .Departure "Lima" }}
                                 <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-lg">
                                     Chatarra
                                 </span>
@@ -51,18 +50,16 @@
                                 </span>
                             {{ end }}
                         </td>
-                        
-                            
                         <td class="px-4 py-4 text-sm text-red-700 border-b font-medium cursor-pointer">PDF</td>
                     </tr>
                 {{ end }}
-            {{ else }}
-                <tr>
-                    <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones.</td>
-                </tr>
-            {{ end }}
-            
+                {{ else }}
+                    <tr>
+                        <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones.</td>
+                    </tr>
+                {{ end }}
             </tbody>
+            
             
             <script>
                 // Encuentra todas las celdas con la clase "date-cell"

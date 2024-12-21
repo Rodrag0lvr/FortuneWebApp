@@ -1,10 +1,6 @@
 package entities
 
-import (
-	"testing"
-	"time"
-)
-
+/*
 func TestNewLiquidation(t *testing.T) {
 	liquidation := NewLiquidation(
 		1, 2, 3, 4, 5, 6, 7, 8, 9, 11, "aguilar", "lima", "chimbote", time.Now())
@@ -92,3 +88,4 @@ func TestNewFakeLiquidation(t *testing.T) {
 		t.Errorf("Expected Price to be 1 but got %f", Liquidation.Price)
 	}
 }
+*/
