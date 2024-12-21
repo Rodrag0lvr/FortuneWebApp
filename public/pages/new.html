@@ -1,0 +1,269 @@
+{{ define "content" }}
+
+<hr class="border-gray-300 mt-1">
+<main class="w-full p-12">
+
+    <!-- Formulario -->
+    <form>
+        <h1 class="text-4xl font-bold mb-6">Nueva Liquidación</h1>
+
+        <!-- Campo Partida -->
+       <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+            <label for="partida" class="block text-sm font-medium text-gray-700 mb-1">Partida</label>
+            <input 
+                type="text" 
+                id="partida" 
+                name="partida" 
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ingrese la partida"
+            >
+        </div>
+
+        <!-- Campo Conductor -->
+        <div>
+            <label for="conductor" class="block text-sm font-medium text-gray-700 mb-1">Conductor</label>
+            <input 
+                type="text" 
+                id="conductor" 
+                name="conductor" 
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ingrese el conductor"
+            >
+        </div>
+
+        <!-- Campo Llegada -->
+        <div>
+            <label for="llegada" class="block text-sm font-medium text-gray-700 mb-1">Llegada</label>
+            <input 
+                type="text" 
+                id="llegada" 
+                name="llegada" 
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ingrese la llegada"
+            >
+        </div>
+
+        <!-- Campo Tracto y Carreta -->
+        <div>
+            <label for="tracto" class="block text-sm font-medium text-gray-700 mb-1">Tracto y Carreta</label>
+            <input 
+                type="text" 
+                id="tracto" 
+                name="tracto" 
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ingrese el tracto y carreta"
+            >
+        </div>
+
+        <!-- Campo Peajes -->
+        <div>
+            <label for="peajes" class="block text-sm font-medium text-gray-700 mb-1">Peajes</label>
+            <input 
+                type="text" 
+                id="peajes" 
+                name="peajes" 
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ingrese los peajes"
+            >
+        </div>
+
+        <!-- Campo Flete -->
+        <div>
+            <label for="flete" class="block text-sm font-medium text-gray-700 mb-1">Flete</label>
+            <input 
+                type="text" 
+                id="flete" 
+                name="flete" 
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ingrese el flete"
+            >
+        </div>
+       </section>
+       
+        <!-------------------------------------------Seccion 2--------------------------------------------------------->
+            <h2 class="text-4xl font-bold mb-6 mt-6">Guias y Facturas</h2>
+           <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label for="peajes" class="block text-sm font-medium text-gray-700 mb-1">Peajes</label>
+                <input 
+                    type="text" 
+                    id="peajes" 
+                    name="peajes" 
+                    class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ingrese los peajes"
+                >
+            </div>
+            <div>
+                <label for="flete" class="block text-sm font-medium text-gray-700 mb-1">Flete</label>
+                <input 
+                    type="text" 
+                    id="flete" 
+                    name="flete" 
+                    class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ingrese el flete"
+                >
+            </div>
+            <div>
+                <label for="flete" class="block text-sm font-medium text-gray-700 mb-1">Flete</label>
+                <input 
+                    type="text" 
+                    id="flete" 
+                    name="flete" 
+                    class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ingrese el flete"
+                >
+            </div>
+            <div>
+                <label for="flete" class="block text-sm font-medium text-gray-700 mb-1">Flete</label>
+                <input 
+                    type="text" 
+                    id="flete" 
+                    name="flete" 
+                    class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ingrese el flete"
+                >
+            </div>
+           </section>
+           <!----------------------------------------------------Seccion 3---------------------------------------------------------------->
+          
+           <h3 class="text-4xl font-bold mb-6 mt-6">Gastos</h3>
+           <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+               <!-- Lavadero -->
+               <div>
+                   <label for="lavadero" class="block text-sm font-medium text-gray-700 mb-1">Lavadero</label>
+                   <input 
+                       type="text" 
+                       id="lavadero" 
+                       name="lavadero" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el lavadero"
+                   >
+               </div>
+           
+               <!-- Cochera -->
+               <div>
+                   <label for="cochera" class="block text-sm font-medium text-gray-700 mb-1">Cochera</label>
+                   <input 
+                       type="text" 
+                       id="cochera" 
+                       name="cochera" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese la cochera"
+                   >
+               </div>
+           
+               <!-- Guardianía/Cargador -->
+               <div>
+                   <label for="guardiania" class="block text-sm font-medium text-gray-700 mb-1">Guardianía/Cargador</label>
+                   <input 
+                       type="text" 
+                       id="guardiania" 
+                       name="guardiania" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese la guardianía/cargador"
+                   >
+               </div>
+           
+               <!-- Encarpar/Desencarpar -->
+               <div>
+                   <label for="encarpar" class="block text-sm font-medium text-gray-700 mb-1">Encarpar/Desencarpar</label>
+                   <input 
+                       type="text" 
+                       id="encarpar" 
+                       name="encarpar" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el encarpado/desencarpado"
+                   >
+               </div>
+           
+               <!-- Barrendero -->
+               <div>
+                   <label for="barrendero" class="block text-sm font-medium text-gray-700 mb-1">Barrendero</label>
+                   <input 
+                       type="text" 
+                       id="barrendero" 
+                       name="barrendero" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el barrendero"
+                   >
+               </div>
+           
+               <!-- Chofer -->
+               <div>
+                   <label for="chofer" class="block text-sm font-medium text-gray-700 mb-1">Chofer</label>
+                   <input 
+                       type="text" 
+                       id="chofer" 
+                       name="chofer" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el chofer"
+                   >
+               </div>
+           
+               <!-- Combustible -->
+               <div>
+                   <label for="combustible" class="block text-sm font-medium text-gray-700 mb-1">Combustible</label>
+                   <input 
+                       type="text" 
+                       id="combustible" 
+                       name="combustible" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el combustible"
+                   >
+               </div>
+           
+               <!-- Gasto Adicional -->
+               <div>
+                   <label for="gastoAdicional" class="block text-sm font-medium text-gray-700 mb-1">Gasto Adicional</label>
+                   <input 
+                       type="text" 
+                       id="gastoAdicional" 
+                       name="gastoAdicional" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el gasto adicional"
+                   >
+               </div>
+           
+               <!-- Flete -->
+               <div>
+                   <label for="flete" class="block text-sm font-medium text-gray-700 mb-1">Flete</label>
+                   <input 
+                       type="text" 
+                       id="flete" 
+                       name="flete" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el flete"
+                   >
+               </div>
+           
+               <!-- Gasto Total -->
+               <div>
+                   <label for="gastoTotal" class="block text-sm font-medium text-gray-700 mb-1">Gasto Total</label>
+                   <input 
+                       type="text" 
+                       id="gastoTotal" 
+                       name="gastoTotal" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el gasto total"
+                   >
+               </div>
+           
+               <!-- Líquido por Viaje -->
+               <div>
+                   <label for="liquidoViaje" class="block text-sm font-medium text-gray-700 mb-1">Líquido por Viaje</label>
+                   <input 
+                       type="text" 
+                       id="liquidoViaje" 
+                       name="liquidoViaje" 
+                       class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ingrese el líquido por viaje"
+                   >
+               </div>
+           </section>
+          
+          
+    </form>
+</main>
+
+{{ end }}

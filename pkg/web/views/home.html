@@ -1,0 +1,64 @@
+{{ define "content" }}
+<hr class="border-gray-300 mt-1">
+<main class="w-full p-6">
+    <div class="flex flex-wrap justify-between items-center px-6 py-4">
+        <!-- Título -->
+        <h1 class="text-4xl font-bold w-full sm:w-auto mb-4 sm:mb-0">Liquidaciones</h1>
+
+        <!-- Botones e Input -->
+        <div class="flex flex-wrap items-center gap-4 w-full sm:w-auto">
+            <div class="relative w-full sm:w-auto">
+                <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </span>
+                <input type="date" class="p-4 py-1 pl-9 w-full sm:w-auto border border-red-700 rounded-md">
+            </div>
+
+            <button class="btn-secondary w-full sm:w-40">Buscar</button>
+            <button class="btn-primary w-full sm:w-auto">+ Agregar liquidación</button>
+        </div>
+    </div>
+    <div class="overflow-x-auto mt-10 p-6">
+        <table class="min-w-full table-auto border-collapse">
+            <thead>
+                <tr class="">
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Conductor(a)</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Fecha</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Partida</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Llegada</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Estado</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ if .liquidations }}
+                    {{ range .liquidations }}
+                    <tr>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Date }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Departure }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Arrival }}</td>
+                        <td class="px-4 py-4 text-sm border-b">
+                            {{ if eq .Status "Finalizado" }}
+                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-lg">{{ .Status }}</span>
+                            {{ else if eq .Status "Pendiente" }}
+                            <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-lg">{{ .Status }}</span>
+                            {{ else }}
+                            <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded-lg">{{ .Status }}</span>
+                            {{ end }}
+                        </td>
+                        <td class="px-4 py-4 text-sm text-red-700 border-b font-medium cursor-pointer">PDF</td>
+                    </tr>
+                    {{ end }}
+                {{ else }}
+                    <tr>
+                        <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones.</td>
+                    </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</main>
+{{ end }}
