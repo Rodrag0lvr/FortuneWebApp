@@ -79,19 +79,6 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 	expense := r.FormValue("expense")
 	price := r.FormValue("price")
 
-	// Convierte las entradas de string a float64
-	departureFloat, err := strconv.ParseFloat(departure, 64)
-	if err != nil {
-		http.Error(w, "Invalid departure value", http.StatusBadRequest)
-		return
-	}
-
-	arrivalFloat, err := strconv.ParseFloat(arrival, 64)
-	if err != nil {
-		http.Error(w, "Invalid arrival value", http.StatusBadRequest)
-		return
-	}
-
 	weightsFloat, err := strconv.ParseFloat(weights, 64)
 	if err != nil {
 		http.Error(w, "Invalid weights value", http.StatusBadRequest)
@@ -128,12 +115,6 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		return
 	}
 
-	driverFloat, err := strconv.ParseFloat(driver, 64)
-	if err != nil {
-		http.Error(w, "Invalid driver value", http.StatusBadRequest)
-		return
-	}
-
 	fuelFloat, err := strconv.ParseFloat(fuel, 64)
 	if err != nil {
 		http.Error(w, "Invalid fuel value", http.StatusBadRequest)
@@ -154,15 +135,15 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 
 	// Crea la instancia de Liquidation
 	liquidation := entities.Liquidation{
-		Departure:    departureFloat,
-		Arrival:      arrivalFloat,
+		Departure:    departure,
+		Arrival:      arrival,
 		Weights:      weightsFloat,
 		Laundry:      laundryFloat,
 		Garage:       garageFloat,
 		Guardianship: guardianshipFloat,
 		Cover:        coverFloat,
 		Sweeper:      sweeperFloat,
-		Driver:       driverFloat,
+		Driver:       driver,
 		Fuel:         fuelFloat,
 		Expense:      expenseFloat,
 		Price:        priceFloat,

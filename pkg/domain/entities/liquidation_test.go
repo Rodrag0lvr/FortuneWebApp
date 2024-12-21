@@ -1,17 +1,20 @@
 package entities
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 func TestNewLiquidation(t *testing.T) {
 	liquidation := NewLiquidation(
-		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+		1, 2, 3, 4, 5, 6, 7, 8, 9, 11, "aguilar", "lima", "chimbote", time.Now())
 	if liquidation.ID != 1 {
 		t.Errorf("Expected ID to be 1 but got %d", liquidation.ID)
 	}
-	if liquidation.Departure != 2 {
+	if liquidation.Departure != "lima" {
 		t.Errorf("Expected Departure to be 2 but got %f", liquidation.Departure)
 	}
-	if liquidation.Arrival != 3 {
+	if liquidation.Arrival != "chimbote" {
 		t.Errorf("Expected Arrival to be 3 but got %f", liquidation.Arrival)
 	}
 	if liquidation.Weights != 4 {
@@ -32,7 +35,7 @@ func TestNewLiquidation(t *testing.T) {
 	if liquidation.Sweeper != 9 {
 		t.Errorf("Expected Sweeper to be 9 but got %f", liquidation.Sweeper)
 	}
-	if liquidation.Driver != 10 {
+	if liquidation.Driver != "aguilar" {
 		t.Errorf("Expected Driver to be 10 but got %f", liquidation.Driver)
 	}
 	if liquidation.Fuel != 11 {
@@ -52,10 +55,10 @@ func TestNewFakeLiquidation(t *testing.T) {
 	if Liquidation.ID != 1 {
 		t.Errorf("Expected ID to be 1 but got %d", Liquidation.ID)
 	}
-	if Liquidation.Departure != 1 {
+	if Liquidation.Departure != "lima" {
 		t.Errorf("Expected Departure to be 1 but got %f", Liquidation.Departure)
 	}
-	if Liquidation.Arrival != 1 {
+	if Liquidation.Arrival != "chimbote" {
 		t.Errorf("Expected Arrival to be 1 but got %f", Liquidation.Arrival)
 	}
 	if Liquidation.Weights != 1 {
@@ -76,7 +79,7 @@ func TestNewFakeLiquidation(t *testing.T) {
 	if Liquidation.Sweeper != 1 {
 		t.Errorf("Expected Sweeper to be 1 but got %f", Liquidation.Sweeper)
 	}
-	if Liquidation.Driver != 1 {
+	if Liquidation.Driver != "aguilar" {
 		t.Errorf("Expected Driver to be 1 but got %f", Liquidation.Driver)
 	}
 	if Liquidation.Fuel != 1 {

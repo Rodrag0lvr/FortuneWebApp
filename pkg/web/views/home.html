@@ -24,41 +24,76 @@
         <table class="min-w-full table-auto border-collapse">
             <thead>
                 <tr class="">
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Conductor(a)</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Conductor</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Fecha</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Partida</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Llegada</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Estado</th>
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Producto</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Acción</th>
                 </tr>
             </thead>
             <tbody>
                 {{ if .liquidations }}
-                    {{ range .liquidations }}
+                {{ range .liquidations }}
                     <tr>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Date }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b date-cell">{{ .Date }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Departure }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Arrival }}</td>
-                        <td class="px-4 py-4 text-sm border-b">
-                            {{ if eq .Status "Finalizado" }}
-                            <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-lg">{{ .Status }}</span>
-                            {{ else if eq .Status "Pendiente" }}
-                            <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-lg">{{ .Status }}</span>
+                        <td class="px-4 py-4 text-md border-b">
+                            {{ if eq .Departure "lima" }}
+                                <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-lg">
+                                    Chatarra
+                                </span>
                             {{ else }}
-                            <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded-lg">{{ .Status }}</span>
+                                <span class="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-lg">
+                                    Fierros
+                                </span>
                             {{ end }}
                         </td>
+                        
+                            
                         <td class="px-4 py-4 text-sm text-red-700 border-b font-medium cursor-pointer">PDF</td>
                     </tr>
-                    {{ end }}
-                {{ else }}
-                    <tr>
-                        <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones.</td>
-                    </tr>
                 {{ end }}
+            {{ else }}
+                <tr>
+                    <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones.</td>
+                </tr>
+            {{ end }}
+            
             </tbody>
+            
+            <script>
+                // Encuentra todas las celdas con la clase "date-cell"
+                const dateCells = document.querySelectorAll('.date-cell');
+            
+                // Itera sobre cada celda y formatea el contenido
+                dateCells.forEach(cell => {
+                    const rawDate = cell.textContent.trim();
+            
+                    // Extrae solo la fecha y hora inicial
+                    const datePart = rawDate.split(' ')[0]; // "2024-12-20"
+                    const timePart = rawDate.split(' ')[1]; // "21:24:44.803133"
+            
+                    // Construye un formato reconocido por JavaScript
+                    const cleanedDate = `${datePart}T${timePart.split('.')[0]}`; // "2024-12-20T21:24:44"
+            
+                    // Convierte la fecha al formato "día/mes/año"
+                    const formattedDate = new Date(cleanedDate).toLocaleDateString('es-ES', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+            
+                    // Actualiza el contenido de la celda
+                    cell.textContent = formattedDate || 'Fecha no válida';
+                });
+            </script>
+            
         </table>
     </div>
 </main>
+
+
 {{ end }}

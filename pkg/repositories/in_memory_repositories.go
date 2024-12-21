@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fortuna-express-web/pkg/domain/entities"
 	"fortuna-express-web/pkg/interfaces"
+	"time"
 )
 
 type InMemoryLiquidationRepository struct {
@@ -14,18 +15,35 @@ func NewInMemoryLiquidationRepository() interfaces.LiquidationRepository {
 	liquidations := []*entities.Liquidation{
 		{
 			ID:           1,
-			Departure:    1,
-			Arrival:      1,
+			Departure:    "lima",
+			Arrival:      "chimbote",
 			Weights:      1,
 			Laundry:      1,
 			Garage:       1,
 			Guardianship: 1,
 			Cover:        1,
 			Sweeper:      1,
-			Driver:       1,
+			Driver:       "aguilar",
 			Fuel:         1,
 			Expense:      1,
 			Price:        1,
+			Date:         time.Now(),
+		},
+		{
+			ID:           2,
+			Departure:    "chimbote",
+			Arrival:      "lima",
+			Weights:      1,
+			Laundry:      1,
+			Garage:       1,
+			Guardianship: 1,
+			Cover:        1,
+			Sweeper:      1,
+			Driver:       "damian",
+			Fuel:         1,
+			Expense:      1,
+			Price:        1,
+			Date:         time.Now(),
 		},
 	}
 	return &InMemoryLiquidationRepository{
