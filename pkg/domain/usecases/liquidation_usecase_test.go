@@ -1,17 +1,13 @@
 package uc
 
-import (
-	repository "fortuna-express-web/pkg/repositories"
-)
-
+/*
 func setupTest() LiquidationUseCase {
 	liquidationRepo := repository.NewInMemoryLiquidationRepository()
-	descriptionRepo := repository.NewInMemoryDescriptionRepository()
 	aditionRepo := repository.NewInMemoryAditionRepository()
-	return NewLiquidationUseCase(liquidationRepo, descriptionRepo, aditionRepo)
+	return NewLiquidationUseCase(liquidationRepo, aditionRepo)
 }
 
-/*
+
 func TestNewLiquidation(t *testing.T) {
 	uc := setupTest()
 	user := entities.NewFakeUser()

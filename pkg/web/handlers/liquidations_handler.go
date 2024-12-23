@@ -221,7 +221,7 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		DriveDescription: driveDescription,
 		FuelDescription:  fuelDescription,
 		LiquidTrip:       liquidTripFloat,
-		Date:             parsedDate,
+		Date:             &parsedDate,
 		Truck:            truck,
 		ExpenseTotal:     expenseTotalFloat,
 		Toll:             tollFloat,

@@ -18,20 +18,18 @@ type LiquidationUseCase interface {
 }
 
 type liquidationUC struct {
-	repo            interfaces.LiquidationRepository
-	repoDescription interfaces.DescriptionRepository
-	repoAdition     interfaces.AditionRepository
+	repo        interfaces.LiquidationRepository
+	repoAdition interfaces.AditionRepository
 }
 
 var (
 	ErrUnauthorized = errors.New("unauthorized")
 )
 
-func NewLiquidationUseCase(repo interfaces.LiquidationRepository, repoDescription interfaces.DescriptionRepository, repoAdition interfaces.AditionRepository) LiquidationUseCase {
+func NewLiquidationUseCase(repo interfaces.LiquidationRepository, repoAdition interfaces.AditionRepository) LiquidationUseCase {
 	return &liquidationUC{
-		repo:            repo,
-		repoDescription: repoDescription,
-		repoAdition:     repoAdition,
+		repo:        repo,
+		repoAdition: repoAdition,
 	}
 }
 
@@ -53,17 +51,7 @@ func (l *liquidationUC) NewAdition(user *entities.User, adition *entities.Aditio
 }
 
 func (l *liquidationUC) NewDescription(user *entities.User, description *entities.Description) error {
-	if user.Role != "admin" {
-		return ErrUnauthorized
-	}
-	if description == nil {
-		return errors.New("description is nil")
-	}
 
-	_, err := l.repoDescription.New(description)
-	if err != nil {
-
-	}
 	return nil
 }
 

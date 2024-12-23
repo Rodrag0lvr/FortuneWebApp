@@ -17,7 +17,7 @@
               id="departure"
               name="departure"
               class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required>
+            required     onchange="updateArrivalOptions()"            >
               <option value="Lima">Lima</option>
               <option value="Chimbote">Chimbote</option>
             </select>
@@ -36,7 +36,8 @@
               id="driver"
               name="driver"
               class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-             required>
+             required     onchange="updateTruckOptions()"
+             >
               <option value="">Seleccione un conductor</option>
               <option value="aguilar">Aguilar</option>
               <option value="damian">Damian</option>
@@ -544,7 +545,39 @@
         // Asegúrate de llamar a calcularLiquidoPorViaje cuando cambien los valores de freight_liquid o expense_total
         document.getElementById('freight_liquid').addEventListener('input', calcularLiquidoPorViaje);
         document.getElementById('expense_total').addEventListener('input', calcularLiquidoPorViaje);
-      </script>
+          // Función para actualizar las opciones de llegada dependiendo de la partida
+  function updateArrivalOptions() {
+    const departure = document.getElementById("departure").value;
+    const arrivalSelect = document.getElementById("arrival");
+
+    // Limpiar las opciones de llegada actuales
+    arrivalSelect.innerHTML = "";
+
+    // Agregar la opción correspondiente a llegada según la partida seleccionada
+    if (departure === "Lima") {
+      arrivalSelect.innerHTML += '<option value="Chimbote">Chimbote</option>';
+    } else {
+      arrivalSelect.innerHTML += '<option value="Lima">Lima</option>';
+    }
+  }
+
+  // Llamar a la función al cargar la página para establecer las opciones iniciales
+  updateArrivalOptions();
+  function updateTruckOptions() {
+    const driver = document.getElementById("driver").value;
+    const truckSelect = document.getElementById("truck");
+
+    // Si el conductor es Aguilar, establecer la opción B7A-714 / M4T979
+    if (driver === "aguilar") {
+      truckSelect.value = "B7A-714 / M4T979";
+    } else {
+      truckSelect.value = "C3W-837 / BDL990"; // Si no es Aguilar, elige la otra opción
+    }
+  }
+
+  // Llamar a la función al cargar la página para asegurarse de que esté configurado correctamente
+  updateTruckOptions();
+    </script>
       
   </form>
 </main>

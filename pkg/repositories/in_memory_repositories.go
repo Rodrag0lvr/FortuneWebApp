@@ -1,12 +1,6 @@
 package repository
 
-import (
-	"errors"
-	"fortuna-express-web/pkg/domain/entities"
-	"fortuna-express-web/pkg/interfaces"
-	"time"
-)
-
+/*
 type InMemoryLiquidationRepository struct {
 	liquidations []*entities.Liquidation
 }
@@ -670,3 +664,4 @@ func (d *InMemoryDescriptionRepository) Delete(id int) error {
 	}
 	return errors.New("description not found")
 }
+*/

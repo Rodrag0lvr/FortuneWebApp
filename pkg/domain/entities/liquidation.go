@@ -3,32 +3,32 @@ package entities
 import "time"
 
 type Liquidation struct {
-	ID               int       `json:"id"`
-	Departure        string    `json:"departure"`
-	Arrival          string    `json:"arrival"`
-	Laundry          float64   `json:"laundry"`
-	Garage           float64   `json:"garage"`
-	Guardianship     float64   `json:"guardianship"`
-	Cover            float64   `json:"cover"`
-	Sweeper          float64   `json:"sweeper"`
-	Driver           string    `json:"driver"`
-	Fuel             float64   `json:"fuel"`
-	Date             time.Time `json:"date"`
-	Freight          float64   `json:"freight"`
-	FreightLiquid    float64   `json:"freight_liquid"`
-	Detraction       float64   `json:"detraction"`
-	Gremission       string    `json:"gremission"`
-	Gtransport       string    `json:"gtransport"`
-	Gtransport2      string    `json:"gtransport2"`
-	Invoice          string    `json:"invoice"`
-	DriverPay        float64   `json:"driver_pay"`
-	DriveDescription string    `json:"drive_description"`
-	FuelDescription  string    `json:"fuel_description"`
-	LiquidTrip       float64   `json:"liquid_trip"`
-	Truck            string    `json:"truck"`
-	ExpenseTotal     float64   `json:"expense_total"`
-	Toll             float64   `json:"toll"`
-	GastAdition      bool      `json:"gast_adition"`
+	ID               int        `json:"id"`
+	Departure        string     `json:"departure"`
+	Arrival          string     `json:"arrival"`
+	Laundry          float64    `json:"laundry"`
+	Garage           float64    `json:"garage"`
+	Guardianship     float64    `json:"guardianship"`
+	Cover            float64    `json:"cover"`
+	Sweeper          float64    `json:"sweeper"`
+	Driver           string     `json:"driver"`
+	Fuel             float64    `json:"fuel"`
+	Date             *time.Time `json:"date"`
+	Freight          float64    `json:"freight"`
+	FreightLiquid    float64    `json:"freight_liquid"`
+	Detraction       float64    `json:"detraction"`
+	Gremission       string     `json:"gremission"`
+	Gtransport       string     `json:"gtransport"`
+	Gtransport2      string     `json:"gtransport2"`
+	Invoice          string     `json:"invoice"`
+	DriverPay        float64    `json:"driver_pay"`
+	DriveDescription string     `json:"drive_description"`
+	FuelDescription  string     `json:"fuel_description"`
+	LiquidTrip       float64    `json:"liquid_trip"`
+	Truck            string     `json:"truck"`
+	ExpenseTotal     float64    `json:"expense_total"`
+	Toll             float64    `json:"toll"`
+	GastAdition      bool       `json:"gast_adition"`
 }
 
 func NewLiquidation(id int, laundry, garage, guardianship, cover, sweeper, fuel, freight, FreightLiquid, detraction, driverPay, LiquidTrip, expenseTotal, toll float64, driver, departure, arrival, gremission, gtransport, gtransport2, invoice, DriveDescription, fuelDescription, truck string, date time.Time, gastAdition bool) *Liquidation {
@@ -43,7 +43,7 @@ func NewLiquidation(id int, laundry, garage, guardianship, cover, sweeper, fuel,
 		Sweeper:          sweeper,
 		Driver:           driver,
 		Fuel:             fuel,
-		Date:             date,
+		Date:             &date,
 		Freight:          freight,
 		FreightLiquid:    FreightLiquid,
 		Detraction:       detraction,
@@ -63,6 +63,7 @@ func NewLiquidation(id int, laundry, garage, guardianship, cover, sweeper, fuel,
 }
 
 func NewFakeLiquidation() *Liquidation {
+	time := time.Now()
 	return &Liquidation{
 		ID:               1,
 		Departure:        "lima",
@@ -74,7 +75,7 @@ func NewFakeLiquidation() *Liquidation {
 		Sweeper:          1,
 		Driver:           "aguilar",
 		Fuel:             1,
-		Date:             time.Now(),
+		Date:             &time,
 		Freight:          1,
 		FreightLiquid:    1,
 		Detraction:       1,

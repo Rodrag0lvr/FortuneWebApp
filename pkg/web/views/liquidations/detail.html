@@ -52,11 +52,11 @@
         </tr>
         <tr>
             <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Flete</td>
-            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Freight }}</td>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.Freight }}</td>
           </tr>
           <tr class="bg-gray-100">
             <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Flete Liquido</td>
-            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.FreightLiquid }}</td>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.FreightLiquid }}</td>
           </tr>
       </tbody>
     </table>
@@ -73,33 +73,46 @@
         </tr>
       </thead>
       <tbody>
+
+        <tr>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Pago conductor</td>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{printf "%.2f"  .liquidation.DriverPay }}</td>
+          </tr>
+        <tr class="">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Descripción Conductor</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{  .liquidation.DriveDescription }}</td>
+        </tr>
         <tr class="bg-gray-100">
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Lavadero</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Laundry }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.Laundry }}</td>
         </tr>
         <tr>
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Cochera</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Garage }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{printf "%.2f"  .liquidation.Garage }}</td>
         </tr>
         <tr class="bg-gray-100">
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Guardianía</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Guardianship }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.Guardianship }}</td>
         </tr>
         <tr>
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Encarpar/Desencarpar</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Cover }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{printf "%.2f"  .liquidation.Cover }}</td>
         </tr>
         <tr class="bg-gray-100">
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Barrendero</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Sweeper }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{printf "%.2f" .liquidation.Sweeper }}</td>
         </tr>
         <tr>
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Combustible</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Fuel }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.Fuel }}</td>
         </tr>
+        <tr class="">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold"> Descripción combustible</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.FuelDescription }}</td>
+
         <tr class="bg-gray-100">
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Peajes</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Toll }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.Toll }}</td>
         </tr>
       </tbody>
     </table>
@@ -120,7 +133,7 @@
         {{ range .adition }}
         <tr>
           <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .Description }}</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .Price }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{printf "%.2f" .Price }}</td>
         </tr>
         {{ end }}
       </tbody>
@@ -141,11 +154,11 @@
       <tbody>
         <tr>
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Gasto Total</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.ExpenseTotal }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{printf "%.2f"  .liquidation.ExpenseTotal }}</td>
         </tr>
         <tr class="bg-gray-100">
           <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Líquido por Viaje</td>
-          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.LiquidTrip }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ printf "%.2f" .liquidation.LiquidTrip }}</td>
         </tr>
       </tbody>
     </table>
