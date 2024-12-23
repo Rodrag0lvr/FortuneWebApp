@@ -1,24 +1,51 @@
 {{ define "content" }}
-<main class="w-full p-6">
-    <div class="flex flex-wrap justify-between items-center px-6 py-4">
+<main class="w-full p-6 px-10">
+    <div class="flex flex-col lg:flex-row justify-between items-center px-6 py-4 gap-4">
         <!-- Título -->
-        <h1 class="text-4xl font-bold w-full sm:w-auto mb-4 sm:mb-0">Liquidaciones</h1>
-
-        <!-- Botones e Input -->
-        <div class="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-            <div class="relative w-full sm:w-auto">
-                <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </span>
-                <input type="date" class="p-4 py-1 pl-9 w-full sm:w-auto border border-red-700 rounded-md">
+        <h1 class="text-5xl font-bold text-center lg:text-left w-full lg:w-auto">Liquidaciones</h1>
+    
+        <!-- Controles -->
+        <div class="flex flex-col gap-4 w-full lg:w-2/6">
+            <!-- Inputs de Fecha y Botón Buscar -->
+            <div class="flex flex-col sm:flex-row items-center gap-2 w-full">
+                <!-- Fecha Inicio -->
+                <div class="flex flex-col w-full sm:w-1/3">
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input id="startDate" type="date" class="p-3 py-1 pl-8 w-full border border-red-700 rounded-md text-sm" placeholder="Fecha inicio">
+                    </div>
+                </div>
+    -
+                <!-- Fecha Fin -->
+                <div class="flex flex-col w-full sm:w-1/3">
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input id="endDate" type="date" class="p-3 py-1 pl-8 w-full border border-red-700 rounded-md text-sm" placeholder="Fecha fin">
+                    </div>
+                </div>
+    
+                <!-- Botón Buscar -->
+                <div class="flex w-full sm:w-1/3">
+                    <button id="searchBtn" class="btn-secondary px-4 py-2 w-full text-sm rounded-md">Buscar</button>
+                </div>
             </div>
-
-            <button class="btn-secondary w-full sm:w-40">Buscar</button>
-            <a href="/new" class="btn-primary w-full sm:w-auto">+ Agregar liquidación</a>
+    
+            <!-- Botón Agregar Liquidación -->
+            <div class="flex w-full">
+                <a href="/new" class="btn-primary px-4 py-2 w-full text-center text-sm rounded-md">+ Agregar liquidación</a>
+            </div>
         </div>
     </div>
+    
+
     <div class="overflow-x-auto mt-10 p-6">
         <table class="min-w-full table-auto border-collapse">
             <thead>
@@ -31,7 +58,7 @@
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Acción</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
                 {{ if .liquidations }}
                 {{ range .liquidations }}
                     <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location.href='/liquidations/{{ .ID }}'">
@@ -55,35 +82,82 @@
                 {{ end }}
                 {{ else }}
                     <tr>
-                        <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones.</td>
+                        <td colspan="6" class="px-4 py-4 text-sm text-gray-800 text-center">No se encontraron liquidaciones para las fechas seleccionadas.</td>
                     </tr>
                 {{ end }}
             </tbody>
-            
-            
             <script>
-                // Encuentra todas las celdas con la clase "date-cell"
-                const dateCells = document.querySelectorAll('.date-cell');
+                 // Función para mostrar solo las últimas 10 liquidaciones
+    function showLast10Rows() {
+        // Obtener todas las filas de la tabla
+        const rows = document.querySelectorAll('#tableBody tr');
+        
+        // Contar el número total de filas
+        const totalRows = rows.length;
+        
+        // Mostrar solo las últimas 10 filas
+        rows.forEach((row, index) => {
+            if (index < totalRows - 10) {
+                row.style.display = 'none'; // Ocultar las filas anteriores
+            } else {
+                row.style.display = ''; // Mostrar las últimas 10 filas
+            }
+        });
+    }
+
+    // Llamar a la función al cargar la página
+    document.addEventListener('DOMContentLoaded', showLast10Rows);
+                document.getElementById('searchBtn').addEventListener('click', function () {
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
             
-                // Itera sobre cada celda y formatea el contenido
+                    if (!startDate || !endDate) {
+                        alert('Por favor, selecciona un rango de fechas para buscar.');
+                        return;
+                    }
+            
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+            
+                    // Validar que la fecha inicial no sea mayor a la fecha final
+                    if (start > end) {
+                        alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+                        return;
+                    }
+            
+                    // Obtener todas las filas de la tabla
+                    const rows = document.querySelectorAll('#tableBody tr');
+            
+                    rows.forEach(row => {
+                        const dateCell = row.querySelector('.date-cell');
+            
+                        if (dateCell) {
+                            const rawDate = dateCell.textContent.trim();
+            
+                            // Limpiar el formato de la fecha y hora
+                            const cleanedDate = rawDate.split(' ')[0]; // Separar solo la fecha
+                            const [day, month, year] = cleanedDate.split('/');
+                            const rowDate = new Date(`${year}-${month}-${day}`); // Convertir a Date
+            
+                            // Mostrar u ocultar la fila dependiendo si está dentro del rango
+                            if (rowDate >= start && rowDate <= end) {
+                                row.style.display = ''; // Mostrar fila
+                            } else {
+                                row.style.display = 'none'; // Ocultar fila
+                            }
+                        }
+                    });
+                });
+            
+                // Formatear fechas al cargar la página
+                const dateCells = document.querySelectorAll('.date-cell');
                 dateCells.forEach(cell => {
                     const rawDate = cell.textContent.trim();
             
-                    // Extrae solo la fecha y hora inicial
-                    const datePart = rawDate.split(' ')[0]; // "2024-12-20"
-                    const timePart = rawDate.split(' ')[1]; // "21:24:44.803133"
-            
-                    // Construye un formato reconocido por JavaScript
-                    const cleanedDate = `${datePart}T${timePart.split('.')[0]}`; // "2024-12-20T21:24:44"
-            
-                    // Convierte la fecha al formato "día/mes/año"
-                    const formattedDate = new Date(cleanedDate).toLocaleDateString('es-ES', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-            
-                    // Actualiza el contenido de la celda
+                    // Limpiar el formato de la fecha y hora
+                    const [datePart] = rawDate.split(' '); // Separar la fecha de la hora
+                    const [year, month, day] = datePart.split('-');
+                    const formattedDate = `${day}/${month}/${year}`;
                     cell.textContent = formattedDate || 'Fecha no válida';
                 });
             </script>
@@ -91,6 +165,5 @@
         </table>
     </div>
 </main>
-
 
 {{ end }}

@@ -181,6 +181,24 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		bandera = true
 	}
 
+	GastoTotal := 0.0
+
+	if laundryFloat > 1 {
+		GastoTotal += laundryFloat
+	}
+	if sweeperFloat > 1 {
+		GastoTotal += sweeperFloat
+	}
+	if coverFloat > 1 {
+		GastoTotal += coverFloat
+	}
+
+	if fuelFloat > 1 {
+		GastoTotal += fuelFloat
+	}
+
+	GastoTotal += tollFloat + garageFloat + guardianshipFloat + driverPayFloat
+
 	// Crear instancia de Liquidation
 	liquidation := entities.Liquidation{
 		Departure:        departure,
@@ -243,10 +261,8 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		log.Printf("--------------------Adition created with ID:%d", id)
 	}
 
-	log.Printf("+++++++++++++++Liquidation created with ID:%d", liquidation.GastAdition)
 	// Redirigir al home después de guardar
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }

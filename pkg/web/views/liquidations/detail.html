@@ -1,139 +1,197 @@
 {{ define "content" }}
-<h1 class="text-2xl font-bold mb-6">Detalle de Liquidación</h1>
+<h1 class="text-2xl font-bold mb-6 text-center mt-10" >Detalle de Liquidación</h1>
 
-<!-- Tabla Principal -->
-<table class="w-full border-collapse border border-gray-300 mb-6">
-  <thead>
-    <tr class="bg-gray-200">
-      <th class="px-4 py-2 text-left border border-gray-300">Categoría</th>
-      <th class="px-4 py-2 text-left border border-gray-300">Detalle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Información General -->
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">ID</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.ID }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Partida</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Departure }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Llegada</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Arrival }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Conductor</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Driver }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Fecha</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Date }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Camión y Carreta</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Truck }}</td>
-    </tr>
+<!-- Contenedor de todas las tablas -->
+<div id="export-container" class="bg-white p-4 sm:p-6 rounded-lg shadow-md max-w-4xl mx-auto">
+  <!-- Información General -->
+  <h2 class="text-lg font-semibold mb-4">Información General</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse border border-gray-300 mb-6 text-sm sm:text-base">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Categoría</th>
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Fecha</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Date.Format "02/01/2006" }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Partida</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Departure }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Llegada</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Arrival }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Camión y Carreta</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Truck }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Conductor</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Driver }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Guía de Remisión</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Gremission }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Guía Transportista 1</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Gtransport }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Guía Transportista 2</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Gtransport2 }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Factura</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Invoice }}</td>
+        </tr>
+        <tr>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Flete</td>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Freight }}</td>
+          </tr>
+          <tr class="bg-gray-100">
+            <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Flete Liquido</td>
+            <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.FreightLiquid }}</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <!-- Costos y Gastos -->
-    <tr>
-      <td colspan="2" class="px-4 py-2 bg-gray-200 font-semibold text-center">Costos y Gastos</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Lavadero</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Laundry }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Cochera</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Garage }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Guardianía</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Guardianship }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Encarpar/Desencarpar</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Cover }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Barrendero</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Sweeper }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Combustible</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Fuel }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Peajes</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Toll }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Gasto Total</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.ExpenseTotal }}</td>
-    </tr>
+  <!-- Gastos -->
+  <h2 class="text-lg font-semibold mb-4">Gastos</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse border border-gray-300 mb-6 text-sm sm:text-base">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Categoría</th>
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Lavadero</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Laundry }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Cochera</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Garage }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Guardianía</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Guardianship }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Encarpar/Desencarpar</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Cover }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Barrendero</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Sweeper }}</td>
+        </tr>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Combustible</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Fuel }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Peajes</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.Toll }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    <!-- Información del Flete -->
-    <tr>
-      <td colspan="2" class="px-4 py-2 bg-gray-200 font-semibold text-center">Información del Flete</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Flete</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Freight }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Flete Líquido</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.FreightLiquid }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Detracción</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Detraction }}</td>
-    </tr>
+  <!-- Gastos Adicionales -->
+  <h2 class="text-lg font-semibold mb-4">Gastos Adicionales</h2>
+  {{ if .adition }}
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse border border-gray-300 mb-6 text-sm sm:text-base">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Descripción</th>
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range .adition }}
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .Description }}</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .Price }}</td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+  {{ else }}
+  <p class="text-gray-500 py-2 mb-4">No hay gastos adicionales para esta liquidación.</p>
+  {{ end }}
 
-    <!-- Documentos -->
-    <tr>
-      <td colspan="2" class="px-4 py-2 bg-gray-200 font-semibold text-center">Documentos</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Guía de Remisión</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Gremission }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Guía Transportista 1</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Gtransport }}</td>
-    </tr>
-    <tr class="bg-gray-100">
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Guía Transportista 2</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Gtransport2 }}</td>
-    </tr>
-    <tr>
-      <td class="px-4 py-2 border border-gray-300 font-semibold">Factura</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .liquidation.Invoice }}</td>
-    </tr>
-  </tbody>
-</table>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse border border-gray-300 mb-6 text-sm sm:text-base">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Resumen</th>
+          <th class="px-2 sm:px-4 py-2 text-left border border-gray-300">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Gasto Total</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.ExpenseTotal }}</td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="px-2 sm:px-4 py-2 border border-gray-300 font-semibold">Líquido por Viaje</td>
+          <td class="px-2 sm:px-4 py-2 border border-gray-300">{{ .liquidation.LiquidTrip }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<!-- Gastos Adicionales -->
-<h2 class="text-lg font-semibold mb-4">Gastos Adicionales</h2>
-{{ if .adition }}
-<table class="w-full border-collapse border border-gray-300">
-  <thead>
-    <tr class="bg-gray-200">
-      <th class="px-4 py-2 text-left border border-gray-300">Descripción</th>
-      <th class="px-4 py-2 text-left border border-gray-300">Monto</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{ range .adition }}
-    <tr>
-      <td class="px-4 py-2 border border-gray-300">{{ .Description }}</td>
-      <td class="px-4 py-2 border border-gray-300">{{ .Price }}</td>
-    </tr>
-    {{ end }}
-  </tbody>
-</table>
-{{ else }}
-<p class="text-gray-500">No hay gastos adicionales para esta liquidación.</p>
-{{ end }}
+<!-- Botones de acción -->
+<div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
+  <button class="btn-primary mb-20 text-white rounded shadow" onclick="printAsPDF()">Imprimir como PDF</button>
+</div>
 
+<script>
+  function printAsPDF() {
+    const printContents = document.getElementById('export-container').innerHTML;
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Detalle de Liquidación</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 20px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            th {
+              background-color: #f2f2f2;
+            }
+          </style>
+        </head>
+        <body>
+          ${printContents}
+        </body>
+      </html>`);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  }
+</script>
 {{ end }}
