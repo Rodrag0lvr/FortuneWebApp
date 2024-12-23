@@ -1,9 +1,10 @@
 {{ define "content" }}
-<main class="w-full p-6 px-10">
+<main class="w-full p-6 px-10 md:px-32">
     <div class="flex flex-col lg:flex-row justify-between items-center px-6 py-4 gap-4">
         <!-- Título -->
-        <h1 class="text-5xl font-bold text-center lg:text-left w-full lg:w-auto">Liquidaciones</h1>
-    
+        <div class="flex justify-center lg:justify-start w-full lg:w-auto">
+            <h1 class="text-5xl font-bold text-center lg:text-left">Liquidaciones</h1>
+        </div>    
         <!-- Controles -->
         <div class="flex flex-col gap-4 w-full lg:w-2/6">
             <!-- Inputs de Fecha y Botón Buscar -->
@@ -50,6 +51,7 @@
         <table class="min-w-full table-auto border-collapse">
             <thead>
                 <tr class="">
+                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Guia Remision</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Conductor</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Fecha</th>
                     <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Partida</th>
@@ -62,6 +64,7 @@
                 {{ if .liquidations }}
                 {{ range .liquidations }}
                     <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location.href='/liquidations/{{ .ID }}'">
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Gremission }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b date-cell">{{ .Date }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Departure }}</td>
