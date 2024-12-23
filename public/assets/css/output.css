@@ -909,6 +909,11 @@ video {
   padding: 1.5rem;
 }
 
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
@@ -922,11 +927,6 @@ video {
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-.px-32 {
-  padding-left: 8rem;
-  padding-right: 8rem;
 }
 
 .px-4 {
@@ -977,10 +977,6 @@ video {
 
 .text-center {
   text-align: center;
-}
-
-.text-start {
-  text-align: start;
 }
 
 .text-2xl {
@@ -1209,6 +1205,10 @@ video {
 }
 
 @media (min-width: 768px) {
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
   .md\:px-32 {
     padding-left: 8rem;
     padding-right: 8rem;
