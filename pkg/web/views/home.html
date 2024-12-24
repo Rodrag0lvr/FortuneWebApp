@@ -101,6 +101,50 @@
        
     }
 
+    document.addEventListener('DOMContentLoaded', showLast10Rows);
+                document.getElementById('searchBtn').addEventListener('click', function () {
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+            
+                    if (!startDate || !endDate) {
+                        alert('Por favor, selecciona un rango de fechas para buscar.');
+                        return;
+                    }
+            
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+            
+                    // Validar que la fecha inicial no sea mayor a la fecha final
+                    if (start > end) {
+                        alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+                        return;
+                    }
+            
+                    // Obtener todas las filas de la tabla
+                    const rows = document.querySelectorAll('#tableBody tr');
+            
+                    rows.forEach(row => {
+                        const dateCell = row.querySelector('.date-cell');
+            
+                        if (dateCell) {
+                            const rawDate = dateCell.textContent.trim();
+            
+                            // Limpiar el formato de la fecha y hora
+                            const cleanedDate = rawDate.split(' ')[0]; // Separar solo la fecha
+                            const [day, month, year] = cleanedDate.split('/');
+                            const rowDate = new Date(`${year}-${month}-${day}`); // Convertir a Date
+            
+                            // Mostrar u ocultar la fila dependiendo si está dentro del rango
+                            if (rowDate >= start && rowDate <= end) {
+                                row.style.display = ''; // Mostrar fila
+                            } else {
+                                row.style.display = 'none'; // Ocultar fila
+                            }
+                        }
+                    });
+                });
+            
+
     // Llamar a la función al cargar la página
 
                 // Formatear fechas al cargar la página
