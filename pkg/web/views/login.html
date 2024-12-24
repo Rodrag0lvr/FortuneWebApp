@@ -13,13 +13,13 @@
             <form action="/login" method="POST"> <!-- Cambia aquí -->
                 <!-- Campo DNI -->
                 <div class="mb-4">
-                    <label for="dni" class="block text-sm font-medium text-gray-700">Ingresar Username</label>
+                    <label for="dni" class="block text-sm font-medium text-gray-700">Usuario</label>
                     <input type="text" id="dni" name="dni" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" required>
                 </div>
                 
                 <!-- Campo Contraseña -->
                 <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Ingresar Contraseña</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                     <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" required>
                 </div>
                 
@@ -30,5 +30,11 @@
             </form>
         </div>
     </div>
+    <footer class="absolute bottom-0 w-full bg-transparent text-center text-white py-4">
+        <p class="text-sm">&copy; 2024 Rodrigo & Mia Aguilar. Todos los derechos reservados.</p>
+    </footer>
+
+    
 </main>
+
 {{ end }}

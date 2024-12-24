@@ -11,7 +11,6 @@
             <div class="flex flex-col sm:flex-row items-center gap-2 w-full">
                 <!-- Fecha Inicio -->
                 <div class="flex flex-col w-full ">
-                <div class="flex flex-col w-full ">
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,7 +22,6 @@
                 </div>
     -
                 <!-- Fecha Fin -->
-                <div class="flex flex-col w-full ">
                 <div class="flex flex-col w-full ">
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
@@ -50,18 +48,9 @@
     
 
     <div class="overflow-x-auto mt-10 p-6" >
-    <div class="overflow-x-auto mt-10 p-6" >
         <table class="min-w-full table-auto border-collapse">
             <thead>
-                <tr >
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Guia Remision</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Conductor</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Fecha</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Partida</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Llegada</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Producto</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Liquido por Viaje</th>
-                <tr >
+
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Guia Remision</th>
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Conductor</th>
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Fecha</th>
@@ -71,7 +60,6 @@
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Liquido por Viaje</th>
                 </tr>
             </thead>
-            <tbody id="tableBody" class="text-center">
             <tbody id="tableBody" class="text-center">
                 {{ if .data.liquidations }}
                 {{ range .data.liquidations }}
@@ -92,7 +80,6 @@
                                 </span>
                             {{ end }}
                         </td>
-                        <td class="px-4 py-4 text-sm  border-b font-medium cursor-pointer">{{ printf "%.2f" .LiquidTrip }}</td>
                         <td class="px-4 py-4 text-sm  border-b font-medium cursor-pointer">{{ printf "%.2f" .LiquidTrip }}</td>
                     </tr>
                 {{ end }}
