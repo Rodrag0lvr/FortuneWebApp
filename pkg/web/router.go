@@ -78,87 +78,112 @@ func SetupRouter(r *gin.Engine, handlerLiquidation LiquidationsHandler) {
 	r.Static("/assets", filepath.Join(publicDir, "assets"))
 
 	r.GET("/new", func(c *gin.Context) {
-		// Simula un usuario
-		user := &entities.User{
-			Role: "admin",
-		}
-
-		// Llama al método del handler para obtener los datos necesarios para el formulario
-		handlerLiquidation.NewView(user, c.Writer, c.Request)
-		if err != nil {
-			log.Println("Error obteniendo datos desde NewView:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
+		if GetSessionToken() == false {
+			c.Redirect(http.StatusFound, "/login")
 			return
-		}
+		} else {
 
-		// Cargar y renderizar las plantillas
-		tmpl, err := template.ParseFiles(
-			filepath.Join(publicDir, "layouts", "base.html"), // Base Layout
-			filepath.Join(viewsDir, "new.html"),              // Vista específica
-		)
-		if err != nil {
-			log.Println("Error cargando las plantillas:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
-			return
-		}
+			data := map[string]interface{}{
+				"IsSessionActive": GetSessionToken(),
+			}
+			// Simula un usuario
+			user := &entities.User{
+				Role: "admin",
+			}
 
-		// Renderizar la plantilla con los datos obtenidos
-		err = tmpl.ExecuteTemplate(c.Writer, "base.html", nil)
-		if err != nil {
-			log.Println("Error renderizando la plantilla:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
+			// Llama al método del handler para obtener los datos necesarios para el formulario
+			handlerLiquidation.NewView(user, c.Writer, c.Request)
+			if err != nil {
+				log.Println("Error obteniendo datos desde NewView:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+
+			// Cargar y renderizar las plantillas
+			tmpl, err := template.ParseFiles(
+				filepath.Join(publicDir, "layouts", "base.html"), // Base Layout
+				filepath.Join(viewsDir, "new.html"),              // Vista específica
+			)
+			if err != nil {
+				log.Println("Error cargando las plantillas:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+
+			// Renderizar la plantilla con los datos obtenidos
+			err = tmpl.ExecuteTemplate(c.Writer, "base.html", data)
+			if err != nil {
+				log.Println("Error renderizando la plantilla:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+			}
 		}
 	})
 	r.POST("/new", func(c *gin.Context) {
 
-		// Simula un usuario
-		user := &entities.User{
-			Role: "admin",
-		}
-
-		// Llama al método del handler para crear una nueva liquidación
-		handlerLiquidation.New(user, c.Writer, c.Request)
-		if err != nil {
-			log.Println("Error creando una nueva liquidación:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
+		if GetSessionToken() == false {
+			c.Redirect(http.StatusFound, "/login")
 			return
+		} else {
+
+			// Simula un usuario
+			user := &entities.User{
+				Role: "admin",
+			}
+
+			// Llama al método del handler para crear una nueva liquidación
+			handlerLiquidation.New(user, c.Writer, c.Request)
+			if err != nil {
+				log.Println("Error creando una nueva liquidación:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
 		}
 
 	})
 
 	r.GET("liquidations/:id", func(c *gin.Context) {
-		// Obtiene el parámetro de la URL
-		id := c.Param("id")
-		c.Request.URL.RawQuery = "id=" + id
-
-		// Simula un usuario
-		user := &entities.User{
-			Role: "admin",
-		}
-
-		// Llama al método del handler para obtener los datos de una liquidación
-		data, err := handlerLiquidation.Get(user, c.Writer, c.Request)
-		if err != nil {
-			log.Println("Error obteniendo datos de la liquidación:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
+		if GetSessionToken() == false {
+			c.Redirect(http.StatusFound, "/login")
 			return
-		}
-		// Cargar y renderizar las plantillas
-		tmpl, err := template.ParseFiles(
-			filepath.Join(publicDir, "layouts", "base.html"),    // Base Layout
-			filepath.Join(viewsDir, "liquidations/detail.html"), // Vista específica
-		)
-		if err != nil {
-			log.Println("Error cargando las plantillas:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
-			return
-		}
+		} else {
 
-		// Renderizar la plantilla con los datos obtenidos
-		err = tmpl.ExecuteTemplate(c.Writer, "base.html", data)
-		if err != nil {
-			log.Println("Error renderizando la plantilla:", err)
-			c.AbortWithStatus(http.StatusInternalServerError)
+			// Obtiene el parámetro de la URL
+			id := c.Param("id")
+			c.Request.URL.RawQuery = "id=" + id
+
+			// Simula un usuario
+			user := &entities.User{
+				Role: "admin",
+			}
+
+			// Llama al método del handler para obtener los datos de una liquidación
+			dataInfo2, err := handlerLiquidation.Get(user, c.Writer, c.Request)
+			if err != nil {
+				log.Println("Error obteniendo datos de la liquidación:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+			data := map[string]interface{}{
+				"data":            dataInfo2,
+				"IsSessionActive": GetSessionToken(),
+			}
+			// Cargar y renderizar las plantillas
+			tmpl, err := template.ParseFiles(
+				filepath.Join(publicDir, "layouts", "base.html"),    // Base Layout
+				filepath.Join(viewsDir, "liquidations/detail.html"), // Vista específica
+			)
+			if err != nil {
+				log.Println("Error cargando las plantillas:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+
+			// Renderizar la plantilla con los datos obtenidos
+			err = tmpl.ExecuteTemplate(c.Writer, "base.html", data)
+			if err != nil {
+				log.Println("Error renderizando la plantilla:", err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+			}
 		}
 
 	})
