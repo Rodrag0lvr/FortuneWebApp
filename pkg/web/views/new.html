@@ -103,7 +103,7 @@
       <div>
         <label for="freight" class="block text-sm font-medium text-gray-700 mb-1">Flete</label>
         <input
-          type="text"
+          type="number"
           id="freight"
           name="freight"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -115,7 +115,7 @@
       <div>
         <label for="detraction" class="block text-sm font-medium text-gray-700 mb-1">Detracción</label>
         <input
-          type="text"
+          type="number"
           id="detraction"
           name="detraction"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -198,7 +198,7 @@
               >Peaje</label
             >
             <input
-              type="text"
+              type="number"
               id="peaje"
               name="peaje"
               class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -209,7 +209,7 @@
       <div>
         <label for="freight_liquid" class="block text-sm font-medium text-gray-700 mb-1">Flete Líquido</label>
         <input
-          type="text"
+          type="number"
           id="freight_liquid"
           name="freight_liquid"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -225,7 +225,7 @@
           >Lavadero</label
         >
         <input
-          type="text"
+          type="number"
           id="laundry"
           name="laundry"
           value = "1"
@@ -242,7 +242,7 @@
           >Cochera</label
         >
         <input
-          type="text"
+          type="number"
           id="garage"
           name="garage"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -258,7 +258,7 @@
           >Guardianía/Cargador</label
         >
         <input
-          type="text"
+          type="number"
           id="guardianship"
           name="guardianship"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -274,7 +274,7 @@
           >Encarpar/Desencarpar</label
         >
         <input
-          type="text"
+          type="number"
           id="cover"
           name="cover"
           value="1"
@@ -291,7 +291,7 @@
           >Barrendero</label
         >
         <input
-          type="text"
+          type="number"
           id="sweeper"
           name="sweeper"
           value="1"
@@ -309,7 +309,7 @@
             >Chofer</label
           >
           <input
-            type="text"
+            type="number"
             id="driver_pay"
             name="driver_pay"
             class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -341,7 +341,7 @@
             >Combustible</label
           >
           <input
-            type="text"
+            type="number"
             id="fuel"
             name="fuel"
             value="1"
@@ -461,7 +461,7 @@
           );
       
           const monto = document.createElement("input");
-          monto.type = "text";
+          monto.type = "number";
           monto.name = "gasto-monto[]";
           monto.placeholder = "Gasto";
           monto.oninput = calcularGastoTotal;
