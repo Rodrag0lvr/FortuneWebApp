@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"fortuna-express-web/pkg/domain/entities"
 	uc "fortuna-express-web/pkg/domain/usecases"
-	"fortuna-express-web/pkg/web"
+	web "fortuna-express-web/pkg/web"
 	"log"
 	"log/slog"
 	"net/http"
@@ -265,6 +265,37 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 
 	// Redirigir al home después de guardar
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+func (l liquidationsHandler) LoginHandler(w http.ResponseWriter, r *http.Request) {
+
+	err := Render(w, "login.html", nil)
+	if err != nil {
+		log.Println("Error rendering login.html:", err)
+		http.Error(w, "Failed to render login.html", http.StatusInternalServerError)
+	}
+}
+func (l liquidationsHandler) LoginForm(w http.ResponseWriter, r *http.Request) {
+	dni := r.FormValue("dni")
+	password := r.FormValue("password")
+
+	if dni == "" || password == "" {
+		http.Error(w, "dni and password are required", http.StatusBadRequest)
+		return
+	}
+	if dni == "admin" && password == "admin" {
+		web.SetSessionToken(true)
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
+		return
+	} else {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+
+	}
+
+}
+func (l liquidationsHandler) Logout(w http.ResponseWriter, r *http.Request) {
+	web.SetSessionToken(false)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func (l liquidationsHandler) Update(user *entities.User, w http.ResponseWriter, r *http.Request) {

@@ -1,5 +1,4 @@
 {{ define "content" }}
-
 <main class="w-full h-screen overflow-hidden relative">
     <!-- Imagen de fondo -->
     <img src="../assets/img/trucks.png" alt="Fortuna Express" class="w-full h-screen object-cover filter blur-sm scale-110">
@@ -11,17 +10,17 @@
             <img src="../assets/img/fort.png" alt="Fortuna Express" class="w-32 h-12 sm:w-48 sm:h-16 mx-auto mb-4">
 
             <!-- Formulario -->
-            <form>
+            <form action="/login" method="POST"> <!-- Cambia aquí -->
                 <!-- Campo DNI -->
                 <div class="mb-4">
                     <label for="dni" class="block text-sm font-medium text-gray-700">Ingresar DNI</label>
-                    <input type="text" id="dni" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    <input type="text" id="dni" name="dni" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" required>
                 </div>
                 
                 <!-- Campo Contraseña -->
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Ingresar Contraseña</label>
-                    <input type="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" required>
                 </div>
                 
                 <!-- Botón Login -->
@@ -32,5 +31,4 @@
         </div>
     </div>
 </main>
-
 {{ end }}

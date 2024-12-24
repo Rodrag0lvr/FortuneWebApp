@@ -61,8 +61,8 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                {{ if .liquidations }}
-                {{ range .liquidations }}
+                {{ if .data.liquidations }}
+                {{ range .data.liquidations }}
                     <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location.href='/liquidations/{{ .ID }}'">
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Gremission }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
