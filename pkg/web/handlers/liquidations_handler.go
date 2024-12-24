@@ -181,24 +181,6 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		bandera = true
 	}
 
-	GastoTotal := 0.0
-
-	if laundryFloat > 1 {
-		GastoTotal += laundryFloat
-	}
-	if sweeperFloat > 1 {
-		GastoTotal += sweeperFloat
-	}
-	if coverFloat > 1 {
-		GastoTotal += coverFloat
-	}
-
-	if fuelFloat > 1 {
-		GastoTotal += fuelFloat
-	}
-
-	GastoTotal += tollFloat + garageFloat + guardianshipFloat + driverPayFloat
-
 	// Crear instancia de Liquidation
 	liquidation := entities.Liquidation{
 		Departure:        departure,

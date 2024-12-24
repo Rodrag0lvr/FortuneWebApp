@@ -10,7 +10,7 @@
             <!-- Inputs de Fecha y Botón Buscar -->
             <div class="flex flex-col sm:flex-row items-center gap-2 w-full">
                 <!-- Fecha Inicio -->
-                <div class="flex flex-col w-full sm:w-1/3">
+                <div class="flex flex-col w-full ">
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,7 +22,7 @@
                 </div>
     -
                 <!-- Fecha Fin -->
-                <div class="flex flex-col w-full sm:w-1/3">
+                <div class="flex flex-col w-full ">
                     <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,20 +47,20 @@
     </div>
     
 
-    <div class="overflow-x-auto mt-10 p-6">
+    <div class="overflow-x-auto mt-10 p-6" >
         <table class="min-w-full table-auto border-collapse">
             <thead>
-                <tr class="">
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Guia Remision</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Conductor</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Fecha</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Partida</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Llegada</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Producto</th>
-                    <th class="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Acción</th>
+                <tr >
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Guia Remision</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Conductor</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Fecha</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Partida</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Llegada</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Producto</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Liquido por Viaje</th>
                 </tr>
             </thead>
-            <tbody id="tableBody">
+            <tbody id="tableBody" class="text-center">
                 {{ if .data.liquidations }}
                 {{ range .data.liquidations }}
                     <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location.href='/liquidations/{{ .ID }}'">
@@ -80,7 +80,7 @@
                                 </span>
                             {{ end }}
                         </td>
-                        <td class="px-4 py-4 text-sm text-red-700 border-b font-medium cursor-pointer">PDF</td>
+                        <td class="px-4 py-4 text-sm  border-b font-medium cursor-pointer">{{ printf "%.2f" .LiquidTrip }}</td>
                     </tr>
                 {{ end }}
                 {{ else }}
@@ -91,67 +91,10 @@
             </tbody>
             <script>
                  // Función para mostrar solo las últimas 10 liquidaciones
-    function showLast10Rows() {
-        // Obtener todas las filas de la tabla
-        const rows = document.querySelectorAll('#tableBody tr');
-        
-        // Contar el número total de filas
-        const totalRows = rows.length;
-        
-        // Mostrar solo las últimas 10 filas
-        rows.forEach((row, index) => {
-            if (index < totalRows - 10) {
-                row.style.display = 'none'; // Ocultar las filas anteriores
-            } else {
-                row.style.display = ''; // Mostrar las últimas 10 filas
-            }
-        });
-    }
+
 
     // Llamar a la función al cargar la página
-    document.addEventListener('DOMContentLoaded', showLast10Rows);
-                document.getElementById('searchBtn').addEventListener('click', function () {
-                    const startDate = document.getElementById('startDate').value;
-                    const endDate = document.getElementById('endDate').value;
-            
-                    if (!startDate || !endDate) {
-                        alert('Por favor, selecciona un rango de fechas para buscar.');
-                        return;
-                    }
-            
-                    const start = new Date(startDate);
-                    const end = new Date(endDate);
-            
-                    // Validar que la fecha inicial no sea mayor a la fecha final
-                    if (start > end) {
-                        alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
-                        return;
-                    }
-            
-                    // Obtener todas las filas de la tabla
-                    const rows = document.querySelectorAll('#tableBody tr');
-            
-                    rows.forEach(row => {
-                        const dateCell = row.querySelector('.date-cell');
-            
-                        if (dateCell) {
-                            const rawDate = dateCell.textContent.trim();
-            
-                            // Limpiar el formato de la fecha y hora
-                            const cleanedDate = rawDate.split(' ')[0]; // Separar solo la fecha
-                            const [day, month, year] = cleanedDate.split('/');
-                            const rowDate = new Date(`${year}-${month}-${day}`); // Convertir a Date
-            
-                            // Mostrar u ocultar la fila dependiendo si está dentro del rango
-                            if (rowDate >= start && rowDate <= end) {
-                                row.style.display = ''; // Mostrar fila
-                            } else {
-                                row.style.display = 'none'; // Ocultar fila
-                            }
-                        }
-                    });
-                });
-            
+
                 // Formatear fechas al cargar la página
                 const dateCells = document.querySelectorAll('.date-cell');
                 dateCells.forEach(cell => {

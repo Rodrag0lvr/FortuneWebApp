@@ -1,7 +1,7 @@
 {{ define "content" }}
 <main class=" px-0 md:px-32 m-8  ">
   <!-- Formulario -->
-  <form method="POST" action="/new">
+  <form method="POST" action="/new" id="form-new">
     <h1 class="text-4xl font-bold mb-6">Nueva Liquidación</h1>
 
     <!-- Campo Partida -->
@@ -39,8 +39,8 @@
              required     onchange="updateTruckOptions()"
              >
               <option value="">Seleccione un conductor</option>
-              <option value="aguilar">Aguilar</option>
-              <option value="damian">Damian</option>
+              <option value="Aguilar">Aguilar</option>
+              <option value="Damian">Damian</option>
             </select>
   
           
@@ -184,20 +184,7 @@
           placeholder="Ingresar GT2"
           required/>
       </div>
-      <div>
-        <label
-          for="guia-peajes"
-          class="block text-sm font-medium text-gray-700 mb-1"
-          >Factura</label
-        >
-        <input
-          type="text"
-          id="guia-peajes"
-          name="guia-peajes"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ingresar Factura"
-          required />
-      </div>
+
   
     </section>
     <!----------------------------------------------------Seccion 3---------------------------------------------------------------->
@@ -259,7 +246,7 @@
           id="garage"
           name="garage"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ingresar cochera"
+          placeholder="Ingresar cochera" value="1"
           required  oninput="calcularGastoTotal()" />
       </div>
 
@@ -275,7 +262,7 @@
           id="guardianship"
           name="guardianship"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ingresar guardianía/cargador"
+          placeholder="Ingresar guardianía/cargador" value = "1"
           required  oninput="calcularGastoTotal()" />
       </div>
 
@@ -340,7 +327,7 @@
             id="drive_description"
             name="drive_description"
             class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value="---"
+            value="-"
             required/>
         </div>
       </div>
@@ -373,7 +360,7 @@
             id="fuel_description"
             name="fuel_description"
             class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value="---"
+            value="-"
             required />
         </div>
       </div>
@@ -435,32 +422,42 @@
         <div>
 
             <div class="mb-6"></div>
-            <button type="submit" class="btn-primary">Guardar</button>
+            <button type="submit" class="btn-primary mb-0 sm:mb-10" id="save">Guardar</button>
         </div>
       </section>
   
 
       <script>
+           document.getElementById("form-new").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Evita el envío del formulario al presionar Enter
+        }
+    });
+
+    // Enviar el formulario solo cuando se haga clic en el botón "Guardar"
+    document.querySelector("#save").addEventListener("click", function(event) {
+        // No es necesario llamar a submit() aquí, ya que el formulario se enviará por defecto al hacer clic en el botón
+    });
         function agregarGastoAdicional() {
           const container = document.getElementById(
             "gastos-adicionales-container"
           );
           const div = document.createElement("div");
-          div.classList.add("flex", "gap-4", "items-center");
+          div.classList.add("flex", "gap-4",  "items-left","md:items-center", "flex-col","sm:flex-row");
       
           const descripcion = document.createElement("input");
           descripcion.type = "text";
           descripcion.name = "gasto-descripcion[]";
           descripcion.placeholder = "Nombre del gasto";
           descripcion.classList.add(
-            "w-1/2",
+            "w-full",
             "border",
             "border-gray-300",
             "rounded-md",
             "p-2",
             "focus:outline-none",
             "focus:ring-2",
-            "focus:ring-blue-500"
+            "focus:ring-blue-500",
           );
       
           const monto = document.createElement("input");
@@ -469,7 +466,7 @@
           monto.placeholder = "Gasto";
           monto.oninput = calcularGastoTotal;
           monto.classList.add(
-            "w-1/4",
+            "w-full",
             "border",
             "border-gray-300",
             "rounded-md",
@@ -520,8 +517,11 @@
           if (sweeper > 1) gastoTotal += sweeper;
           if (cover > 1) gastoTotal += cover;
           if (fuel > 1) gastoTotal += fuel;
+          if (garage > 1) gastoTotal += garage;
+          if (guardianship > 1) gastoTotal += guardianship;
+
       
-          gastoTotal += toll + garage + guardianship + driverPay;
+          gastoTotal += toll  + driverPay;
       
           // Suma de los campos dinámicos
           const gastosAdicionales = document.getElementsByName("gasto-monto[]");
@@ -568,7 +568,7 @@
     const truckSelect = document.getElementById("truck");
 
     // Si el conductor es Aguilar, establecer la opción B7A-714 / M4T979
-    if (driver === "aguilar") {
+    if (driver === "Aguilar") {
       truckSelect.value = "B7A-714 / M4T979";
     } else {
       truckSelect.value = "C3W-837 / BDL990"; // Si no es Aguilar, elige la otra opción

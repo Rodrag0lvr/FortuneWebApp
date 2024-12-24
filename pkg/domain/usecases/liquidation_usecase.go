@@ -82,6 +82,9 @@ func (l *liquidationUC) List(user *entities.User) ([]*entities.Liquidation, erro
 	if err != nil {
 		return nil, err
 	}
+	for i, j := 0, len(liquidations)-1; i < j; i, j = i+1, j-1 {
+		liquidations[i], liquidations[j] = liquidations[j], liquidations[i]
+	}
 
 	return liquidations, nil
 }
@@ -103,10 +106,6 @@ func (l *liquidationUC) Get(user *entities.User, id int) (*entities.Liquidation,
 		aditions, err = l.repoAdition.Get(id)
 		if err != nil {
 			log.Printf("Error obteniendo gastos adicionales: %v", err)
-			// Continuar con la liquidación incluso si los gastos adicionales no se encuentran
-		} else {
-
-			log.Printf("0000000Gastos adicionales obtenidos: %v", len(aditions))
 		}
 	}
 
