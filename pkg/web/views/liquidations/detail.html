@@ -4,7 +4,7 @@
 <!-- Contenedor de todas las tablas -->
 <div id="export-container" class="bg-white md:p-4 p-10  max-w-4xl mx-auto">
   <!-- Información General -->
-  <h2 class="text-lg font-semibold mb-4">Información General | GR:{{ .data.liquidation.Gremission }}</h2>
+  <h2 class="text-lg font-semibold mb-4">Información de Liquidación | GR:{{ .data.liquidation.Gremission }} | {{ .data.liquidation.Date.Format "02/01/2006" }}</h2>
   <div class="overflow-x-auto">
     <table class="w-full border-collapse border border-gray-300 mb-6 text-sm sm:text-base">
       <thead>
