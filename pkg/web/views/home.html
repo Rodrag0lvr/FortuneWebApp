@@ -38,11 +38,17 @@
                     <button id="searchBtn" class="btn-secondary px-4 py-2 w-full text-sm rounded-md">Buscar</button>
                 </div>
             </div>
+            
     
             <!-- Botón Agregar Liquidación -->
             <div class="flex w-full">
                 <a href="/new" class="btn-primary px-4 py-2 w-full text-center text-sm rounded-md">+ Agregar liquidación</a>
             </div>
+            <!-- Botón Imprimir -->
+        <div class="flex w-3/4   mt-4">
+            <button id="printBtn" class="btn-secondary px-4 py-2 w-full text-center text-sm rounded-md">Imprimir</button>
+        </div>
+
         </div>
     </div>
     
@@ -50,25 +56,28 @@
     <div class="overflow-x-auto mt-10 p-6" >
         <table class="min-w-full table-auto border-collapse">
             <thead>
-
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Factura</th>
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Guia Remision</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Conductor</th>
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Fecha</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Partida</th>
-                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Llegada</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Conductor</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Ruta</th>
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Producto</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Flete</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Flete Liquido</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Gastos</th>
                     <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Liquido por Viaje</th>
+                    <th class="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Vencimiento</th>
                 </tr>
             </thead>
             <tbody id="tableBody" class="text-center">
                 {{ if .data.liquidations }}
                 {{ range .data.liquidations }}
                     <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location.href='/liquidations/{{ .ID }}'">
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Invoice }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Gremission }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
                         <td class="px-4 py-4 text-sm text-gray-800 border-b date-cell">{{ .Date }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Departure }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Arrival }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Driver }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{ .Departure }} - {{ .Arrival }}</td>
                         <td class="px-4 py-4 text-md border-b">
                             {{ if eq .Departure "Lima" }}
                                 <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-2 py-1 rounded-lg">
@@ -80,7 +89,14 @@
                                 </span>
                             {{ end }}
                         </td>
-                        <td class="px-4 py-4 text-sm  border-b font-medium cursor-pointer">{{ printf "%.2f" .LiquidTrip }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{  .Freight }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b">{{  .FreightLiquid }}</td>
+
+                        <td class="px-4 py-4 text-sm  border-b font-medium cursor-pointer">{{ .ExpenseTotal }}</td>
+                        <td class="px-4 py-4 text-sm  border-b font-medium cursor-pointer">{{ .LiquidTrip }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-800 border-b date-cell">{{ .Expired_At }}</td>
+
+
                     </tr>
                 {{ end }}
                 {{ else }}
@@ -145,19 +161,78 @@
                 });
             
 
-    // Llamar a la función al cargar la página
 
+   
                 // Formatear fechas al cargar la página
                 const dateCells = document.querySelectorAll('.date-cell');
                 dateCells.forEach(cell => {
                     const rawDate = cell.textContent.trim();
-            
+                
                     // Limpiar el formato de la fecha y hora
                     const [datePart] = rawDate.split(' '); // Separar la fecha de la hora
                     const [year, month, day] = datePart.split('-');
                     const formattedDate = `${day}/${month}/${year}`;
                     cell.textContent = formattedDate || 'Fecha no válida';
                 });
+
+
+document.getElementById('printBtn').addEventListener('click', function () {
+    // Obtener todas las filas visibles de la tabla
+    const rows = document.querySelectorAll('#tableBody tr');
+    let contentToPrint = '<html><head><style>';
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    
+    const startFormatted = startDate ? new Date(startDate).toLocaleDateString('es-PE') : 'No definida';
+    const endFormatted = endDate ? new Date(endDate).toLocaleDateString('es-PE') : 'No definida';
+
+    // Añadir Google Fonts para Roboto
+    contentToPrint += '@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");';
+
+    contentToPrint += 'table { width: 100%; border-collapse: collapse; font-family: "Roboto", sans-serif; }'; // Aplicar la fuente Roboto
+    contentToPrint += 'th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }'; // Asegurar que th y td estén centrados
+    contentToPrint += '.header-row { font-weight: bold; }';
+    contentToPrint += '</style></head><body>';
+        contentToPrint += `<h1 style="font-family: 'Roboto', sans-serif;">Liquidaciones del [${startFormatted} al ${endFormatted}]</h1>`;
+        contentToPrint += '<table>';
+
+    // Crear la fila de los encabezados de columna
+    contentToPrint += '<thead><tr class="header-row">';
+    contentToPrint += '<th>Factura</th>';
+    contentToPrint += '<th>Guia Remision</th>';
+    contentToPrint += '<th>Fecha</th>';
+    contentToPrint += '<th>Conductor</th>';
+    contentToPrint += '<th>Ruta</th>';
+    contentToPrint += '<th>Producto</th>';
+    contentToPrint += '<th>Flete</th>';
+    contentToPrint += '<th>Flete Liquido</th>';
+    contentToPrint += '<th>Gastos</th>';
+    contentToPrint += '<th>Liquido por Viaje</th>';
+    contentToPrint += '<th>Vencimiento</th>';
+    contentToPrint += '</tr></thead>';
+
+    contentToPrint += '<tbody>';
+    rows.forEach(row => {
+        if (row.style.display !== 'none') { // Verificar si la fila está visible
+            contentToPrint += '<tr>';
+            row.querySelectorAll('td').forEach(cell => {
+                contentToPrint += `<td style="text-align: center;">${cell.textContent}</td>`; // Añadir estilo para centrar
+            });
+            contentToPrint += '</tr>';
+        }
+    });
+    contentToPrint += '</tbody>';
+    contentToPrint += '</table>';
+    contentToPrint += '</body></html>';
+
+    // Crear una ventana para la impresión
+    const printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write(contentToPrint);
+    printWindow.document.close();
+    printWindow.print();
+});
+
+
             </script>
             
         </table>
