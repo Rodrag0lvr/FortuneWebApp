@@ -135,6 +135,7 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 	expenseTotal := r.FormValue("expense_total")
 	truck := r.FormValue("truck")
 	toll := r.FormValue("peaje")
+	expired_at := r.FormValue("expired_at")
 
 	// Conversión de valores numéricos
 	tollFloat, err := strconv.ParseFloat(toll, 64)
@@ -157,6 +158,11 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 
 	layout := "2006-01-02"
 	parsedDate, err := time.Parse(layout, dateStr)
+	if err != nil {
+		http.Error(w, "invalid date format", http.StatusBadRequest)
+		return
+	}
+	parsedExpiredDate, err := time.Parse(layout, expired_at)
 	if err != nil {
 		http.Error(w, "invalid date format", http.StatusBadRequest)
 		return
@@ -208,6 +214,7 @@ func (l liquidationsHandler) New(user *entities.User, w http.ResponseWriter, r *
 		ExpenseTotal:     expenseTotalFloat,
 		Toll:             tollFloat,
 		GastAdition:      bandera,
+		Expired_At:       &parsedExpiredDate,
 	}
 
 	// Guardar la liquidación

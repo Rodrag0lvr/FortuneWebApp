@@ -73,7 +73,8 @@ func createTables(db *sql.DB) error {
 		truck VARCHAR(255) NOT NULL,
 		expense_total DECIMAL(10, 2) NOT NULL,
 		toll DECIMAL(10, 2) NOT NULL,
-		gast_adition BOOLEAN NOT NULL
+		gast_adition BOOLEAN NOT NULL,
+		expired_at DATETIME NOT NULL
 	);`
 
 	additionsQuery := `CREATE TABLE IF NOT EXISTS aditions (

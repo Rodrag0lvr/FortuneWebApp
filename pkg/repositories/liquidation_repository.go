@@ -29,9 +29,9 @@ func (r *liquidationRepository) New(liquidation *entities.Liquidation) (int, err
 			departure, arrival, laundry, garage, guardianship, cover, sweeper, driver, fuel, 
 			date, freight, freight_liquid, detraction, gremission, gtransport, gtransport2, 
 			invoice, driver_pay, drive_description, fuel_description, liquid_trip, truck, 
-			expense_total, toll, gast_adition
+			expense_total, toll, gast_adition, expired_at
 		) VALUES (
-			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 		)`
 	_, err := r.db.ExecContext(ctx, query,
 		liquidation.Departure, liquidation.Arrival, liquidation.Laundry, liquidation.Garage,
@@ -40,7 +40,7 @@ func (r *liquidationRepository) New(liquidation *entities.Liquidation) (int, err
 		liquidation.Detraction, liquidation.Gremission, liquidation.Gtransport, liquidation.Gtransport2,
 		liquidation.Invoice, liquidation.DriverPay, liquidation.DriveDescription, liquidation.FuelDescription,
 		liquidation.LiquidTrip, liquidation.Truck, liquidation.ExpenseTotal, liquidation.Toll,
-		liquidation.GastAdition,
+		liquidation.GastAdition, liquidation.Expired_At,
 	)
 
 	if err != nil {
@@ -71,14 +71,15 @@ func (r *liquidationRepository) List() ([]*entities.Liquidation, error) {
 	var liquidations []*entities.Liquidation
 	for rows.Next() {
 		var l entities.Liquidation
-		var dateRaw []byte // Cambiamos a []byte para manejar el valor crudo
+		var dateRaw []byte      // Cambiamos a []byte para manejar el valor crudo
+		var expiredAtRaw []byte // Cambiamos a []byte para manejar el valor crudo
 
 		err := rows.Scan(
 			&l.ID, &l.Departure, &l.Arrival, &l.Laundry, &l.Garage, &l.Guardianship,
 			&l.Cover, &l.Sweeper, &l.Driver, &l.Fuel, &dateRaw, &l.Freight, &l.FreightLiquid,
 			&l.Detraction, &l.Gremission, &l.Gtransport, &l.Gtransport2, &l.Invoice,
 			&l.DriverPay, &l.DriveDescription, &l.FuelDescription, &l.LiquidTrip,
-			&l.Truck, &l.ExpenseTotal, &l.Toll, &l.GastAdition,
+			&l.Truck, &l.ExpenseTotal, &l.Toll, &l.GastAdition, &expiredAtRaw,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan liquidation: %w", err)
@@ -93,6 +94,15 @@ func (r *liquidationRepository) List() ([]*entities.Liquidation, error) {
 			l.Date = &parsedTime
 		}
 
+		if len(expiredAtRaw) > 0 {
+			parsedTime, err := time.Parse("2006-01-02 15:04:05", string(expiredAtRaw))
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse date: %w", err)
+			}
+			l.Expired_At = &parsedTime
+
+		}
+
 		liquidations = append(liquidations, &l)
 	}
 
@@ -105,13 +115,14 @@ func (r *liquidationRepository) Get(id int) (*entities.Liquidation, error) {
 
 	query := "SELECT * FROM liquidations WHERE id = ?"
 	var l entities.Liquidation
-	var dateRaw []byte // Cambiamos a []byte para manejar el valor crudo
+	var dateRaw []byte      // Cambiamos a []byte para manejar el valor crudo
+	var expiredAtRaw []byte // Cambiamos a []byte para manejar el valor crudo
 	err := r.db.QueryRowContext(ctx, query, id).Scan(
 		&l.ID, &l.Departure, &l.Arrival, &l.Laundry, &l.Garage, &l.Guardianship,
 		&l.Cover, &l.Sweeper, &l.Driver, &l.Fuel, &dateRaw, &l.Freight, &l.FreightLiquid,
 		&l.Detraction, &l.Gremission, &l.Gtransport, &l.Gtransport2, &l.Invoice,
 		&l.DriverPay, &l.DriveDescription, &l.FuelDescription, &l.LiquidTrip,
-		&l.Truck, &l.ExpenseTotal, &l.Toll, &l.GastAdition,
+		&l.Truck, &l.ExpenseTotal, &l.Toll, &l.GastAdition, &expiredAtRaw,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get liquidation with id %d: %w", id, err)
@@ -124,6 +135,14 @@ func (r *liquidationRepository) Get(id int) (*entities.Liquidation, error) {
 			return nil, fmt.Errorf("failed to parse date: %w", err)
 		}
 		l.Date = &parsedTime
+	}
+
+	if len(expiredAtRaw) > 0 {
+		parsedTime, err := time.Parse("2006-01-02 15:04:05", string(expiredAtRaw))
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse date: %w", err)
+		}
+		l.Expired_At = &parsedTime
 	}
 
 	return &l, nil
