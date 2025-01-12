@@ -78,7 +78,7 @@ func (r *aditionRepository) Get(id int) ([]*entities.Adition, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	query := `SELECT id, description, price, liquidation_id FROM aditions WHERE id = ?`
+	query := `SELECT id, description, price, liquidation_id FROM aditions WHERE liquidation_id = ?`
 	rows, err := r.db.QueryContext(ctx, query, id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch aditions: %w", err)
